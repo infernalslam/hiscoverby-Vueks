@@ -21,6 +21,7 @@
 </template>
 
 <script>
+/* global axios */
 import Vue from 'vue'
 import VueYouTubeEmbed from 'vue-youtube-embed'
 Vue.use(VueYouTubeEmbed)
@@ -58,23 +59,18 @@ export default {
     },
     search (keyword) {
       let vm = this
-      this.$http.get('/search?keyword=' + keyword + ' cover').then(function (res) {
-        // console.log(JSON.parse(res.body))
-        vm.list = JSON.parse(res.body).items
-        this.keyTemp = keyword
-        this.show = true
-        for (var i = 0; i < vm.list.length; i++) {
-          var playlistCheck = {
-            id: i,
-            show: false
-          }
-          this.showPlaylist.push(playlistCheck)
+      axios.get('http://localhost:3000/search?keyword=' + keyword + ' cover').then(function (err, response) {
+        if (err) {
+          console.log(err)
+        } else {
+          vm.list = response.data.items
+          console.log(response.data.items)
         }
       })
     },
     cateSearch (keysearch) {
       let vm = this
-      this.$http.get('/search?keyword=' + this.keyTemp + keysearch).then(function (res) {
+      this.$http.get('http://localhost:3000/search?keyword=' + this.keyTemp + keysearch).then(function (res) {
         vm.list = JSON.parse(res.body).items
         this.show = true
       })
@@ -125,13 +121,18 @@ export default {
 </script>
 
 <style lang="css">
-
+@font-face {
+  font-family: 'THSarabunNew';
+  src: url('./../static/THSarabunNew.eot') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+}
 body {
   padding: 0px;
   margin: 0px;
   height: 100%;
   width: 100%;
-  font-family: 'Athiti', 'Oxygen';
+  font-family: 'THSarabunNew';
   background-color: #F1F1F1;
 }
 
