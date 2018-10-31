@@ -1,6 +1,6 @@
-# youtubeapi
+# Youtube API
 
-> A Vue.js project
+> A very nice Vue.js project
 
 ## Build Setup
 
